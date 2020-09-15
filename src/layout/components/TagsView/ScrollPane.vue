@@ -1,7 +1,7 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-07-22 18:16:18
- * @LastEditTime: 2020-08-10 14:27:46
+ * @LastEditTime: 2020-09-15 11:57:02
  * @LastEditors: Hzh
  * @Description:标签组件横向滚动条 @wheel滚轮滚动事件
 -->
@@ -35,6 +35,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      console.log(this.$refs.scrollContainer)
       smoothscroll.polyfill()
     })
 
@@ -164,6 +165,9 @@ export default {
   ::v-deep {
     .el-scrollbar__bar {
       bottom: 0px;
+    }
+    .el-scrollbar__bar.is-horizontal{
+      display: none;
     }
     .el-scrollbar__wrap {
       // transition: left .3s ease;

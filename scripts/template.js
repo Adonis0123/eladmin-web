@@ -1,4 +1,11 @@
-// template.js
+/*
+ * @Author: Hzh
+ * @Date: 2020-09-14 10:00:32
+ * @LastEditTime: 2020-09-15 14:00:05
+ * @LastEditors: Hzh
+ * @Description:自动生成编译模板
+ */
+
 module.exports = {
   vueTemplate: compoenntName => {
     return `<template>
@@ -33,7 +40,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
   .${compoenntName}{
 
   }

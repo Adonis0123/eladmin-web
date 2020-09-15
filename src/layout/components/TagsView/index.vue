@@ -1,41 +1,53 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-07-25 00:32:14
- * @LastEditTime: 2020-09-15 09:27:54
+ * @LastEditTime: 2020-09-15 19:33:45
  * @LastEditors: Hzh
  * @Description:标签组件 @contextmenu 右键菜单 @click.middle 鼠标滚轮单击触发
 -->
 
 <template>
   <div id="tags-view-container" class="tags-view-container">
-    <!-- <el-button class="btn-icon btn-left" icon="el-icon-arrow-left" size="mini" @click="moveScroll(-200)" /> -->
-    <div class="btn-icon btn-left" @click.stop.prevent="moveScroll(-200)">
+    <div class="btn-icon btn-left" @click.stop.prevent="moveScroll(200)">
       <!-- <svg-icon icon-class="zuo-yuan" /> -->
       <i class="el-icon-arrow-left" />
     </div>
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
-      <router-link
-        v-for="tag in visitedViews"
-        ref="tag"
-        :key="tag.path"
-        :class="isActive(tag)?'active':''"
-        :style="activeColor(tag)"
-        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-        tag="span"
-        class="tags-view-item"
-        @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
-        @click.right.prevent.native="openMenu(tag,$event)"
-      >
-        {{ tag.title }}
-        <span
-          v-if="!isAffix(tag)"
-          class="el-icon-close"
-          @click.stop.prevent="closeSelectedTag(tag)"
-        />
-      </router-link>
-    </scroll-pane>
-    <!-- <el-button class="btn-icon btn-right" size="mini" icon="el-icon-arrow-right" @click="moveScroll(200)" /> -->
-    <div class="btn-icon btn-right" @click.stop.prevent="moveScroll(200)">
+    <better-scroll
+      ref="scrollPane"
+      :data="visitedViews"
+      :scroll-x="true"
+      :scroll-y="false"
+      listen-scroll
+      :click="false"
+      :probe-type="2"
+      class="tags-view-wrapper"
+      @scroll="handleScroll"
+    >
+      <el-row style="display:inline-block;white-space:nowrap">
+        <!-- <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll"> -->
+        <router-link
+          v-for="tag in visitedViews"
+          ref="tag"
+          :key="tag.path"
+          :class="isActive(tag)?'active':''"
+          :style="activeColor(tag)"
+          :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+          tag="span"
+          class="tags-view-item"
+          @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
+          @click.right.prevent.native="openMenu(tag,$event)"
+        >
+          {{ tag.title }}
+          <span
+            v-if="!isAffix(tag)"
+            class="el-icon-close"
+            @click.stop.prevent="closeSelectedTag(tag)"
+          />
+        </router-link>
+      </el-row>
+      <!-- </scroll-pane> -->
+    </better-scroll>
+    <div class="btn-icon btn-right" @click.stop.prevent="moveScroll(-200)">
       <!-- <svg-icon icon-class="you-yuan" /> -->
       <i class="el-icon-arrow-right" />
     </div>
@@ -49,11 +61,12 @@
 </template>
 
 <script>
-import ScrollPane from './ScrollPane'
+// import ScrollPane from './ScrollPane'
+import { BetterScroll } from 'components'
 import path from 'path'
 
 export default {
-  components: { ScrollPane },
+  components: { BetterScroll },
   data() {
     return {
       visible: false, // 展示右键菜单
@@ -88,12 +101,32 @@ export default {
      */
     themeColor() {
       return this.$store.state.settings.theme
+    },
+
+    /**
+     * @description: 侧边栏展开与否
+     */
+    sidebar() {
+      return this.$store.state.app.sidebar
     }
   },
+
   watch: {
     $route() {
       this.addTags()
-      this.moveToCurrentTag()
+      /* 解决添加标签没有滚动到最后一个的问题 */
+      setTimeout(() => {
+        this.moveToCurrentTag()
+      }, 60)
+    },
+
+    sidebar: {
+      deep: true,
+      handler: function(obj) {
+        setTimeout(() => {
+          this.$refs.scrollPane.refresh() // 重置better-scroll
+        }, 200)
+      }
     },
 
     /**
@@ -207,7 +240,9 @@ export default {
       this.$nextTick(() => {
         for (const tag of tags) {
           if (tag.to.path === this.$route.path) {
-            this.$refs.scrollPane.moveToTarget(tag) // 移动到当前高亮的标签
+            // this.$refs.scrollPane.moveToTarget(tag) // 移动到当前高亮的标签
+            const { $el } = tag
+            this.$refs.scrollPane.scrollToElement($el, 350, true) // 移动到当前高亮的标签
             // 如果路由传值不一样的话则更新传值
             if (tag.to.fullPath !== this.$route.fullPath) {
               const { path, fullPath, name, meta } = this.$route
@@ -230,7 +265,24 @@ export default {
      * @param {Number} offset 移动的距离
      */
     moveScroll(offset) {
-      this.$refs.scrollPane.moveScroll(offset)
+      const { maxScrollX, minScrollX, x } = this.$refs.scrollPane.scroll
+      if (offset < 0) {
+        if (x === maxScrollX) {
+          return
+        } else if (Math.abs(maxScrollX) - Math.abs(x) < 150) {
+          this.$refs.scrollPane.scrollTo(maxScrollX, 0, 200)
+        } else {
+          this.$refs.scrollPane.scrollBy(offset, 0, 200)
+        }
+      } else {
+        if (x === minScrollX) {
+          return
+        } else if (Math.abs(x) < 150) {
+          this.$refs.scrollPane.scrollTo(minScrollX, 0, 200)
+        } else {
+          this.$refs.scrollPane.scrollBy(offset, 0, 200)
+        }
+      }
     },
 
     /**
@@ -323,14 +375,14 @@ export default {
       const offsetLeft = this.$el.getBoundingClientRect().left // container margin left 相对于相对于视口左侧的位置
       const offsetWidth = this.$el.offsetWidth // container width 整个标签页的宽度
       const maxLeft = offsetWidth - menuMinWidth // 左边界
-      const left = e.clientX - offsetLeft + 15 // 15: （鼠标右键后向右偏移15） 返回当事件被触发时鼠标指针向对于浏览器页面（或当前窗户）的水平坐标。
+      const left = e.clientX - offsetLeft // 15: （鼠标右键后向右偏移15） 返回当事件被触发时鼠标指针向对于浏览器页面（或当前窗户）的水平坐标。
       if (left > maxLeft) {
         this.left = maxLeft
       } else {
         this.left = left
       }
-
-      this.top = e.clientY // 返回当事件被触发时鼠标指针向对于浏览器页面（或当前窗户）的垂直坐标
+      // this.top = e.clientY // 返回当事件被触发时鼠标指针向对于浏览器页面（或当前窗户）的垂直坐标
+      this.top = 35
       this.visible = true
       // 给当前选中的标签赋值
       this.selectedTag = tag
@@ -346,7 +398,7 @@ export default {
     /**
      * @description: 滚动的时候关闭右键菜单
      */
-    handleScroll() {
+    handleScroll(pos) {
       this.closeMenu()
     }
   }
@@ -366,6 +418,9 @@ export default {
   user-select: none;
   &:active {
     background-color: #f2f3f5;
+  }
+  &:hover {
+    color: rgb(24, 144, 255);
   }
   .svg-icon {
     color: #97a8be;
@@ -388,7 +443,9 @@ export default {
   position: relative;
   .tags-view-wrapper {
     width: calc(100% - 50px); //48px: btnleft & btnright
+    background: #f0f0f0;
     .tags-view-item {
+      user-select: none;
       display: inline-block;
       position: relative;
       cursor: pointer;
