@@ -1,13 +1,14 @@
+
 import { login, getInfo, logout } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { resetRouter } from '@/router/routers'
 
 const user = {
   state: {
-    token: getToken(),
+    token: getToken(), // 刷新之后获取Token
     user: {},
     roles: [],
-    // 第一次加载菜单时用到
-    loadMenus: false
+    loadMenus: false // 第一次加载菜单时用到
   },
 
   mutations: {
@@ -26,7 +27,10 @@ const user = {
   },
 
   actions: {
-    // 登录
+    /**
+     * @description: 登录
+     * @param {Object} userInfo
+     */
     Login({ commit }, userInfo) {
       const rememberMe = userInfo.rememberMe
       return new Promise((resolve, reject) => {
@@ -34,7 +38,7 @@ const user = {
           setToken(res.token, rememberMe)
           commit('SET_TOKEN', res.token)
           setUserInfo(res.user, commit)
-          // 第一次加载菜单时用到， 具体见 src 目录下的 permission.js
+          // 第一次加载菜单时用到， 具体见 router 目录下的 routers.js
           commit('SET_LOAD_MENUS', true)
           resolve()
         }).catch(error => {
@@ -43,7 +47,9 @@ const user = {
       })
     },
 
-    // 获取用户信息
+    /**
+     * @description: 获取用户信息
+     */
     GetInfo({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(res => {
@@ -54,19 +60,25 @@ const user = {
         })
       })
     },
-    // 登出
-    LogOut({ commit }) {
+
+    /**
+     * @description: 登出
+     */
+    LogOut({ commit, dispatch }) {
       return new Promise((resolve, reject) => {
         logout().then(res => {
-          logOut(commit)
+          logOut(commit, dispatch)
           resolve()
         }).catch(error => {
-          logOut(commit)
+          logOut(commit, dispatch)
           reject(error)
         })
       })
     },
 
+    /**
+     * @description: 第二次拉取菜单（非登录时获取）
+     */
     updateLoadMenus({ commit }) {
       return new Promise((resolve, reject) => {
         commit('SET_LOAD_MENUS', false)
@@ -75,12 +87,24 @@ const user = {
   }
 }
 
-export const logOut = (commit) => {
+/* 退出登录 */
+export const logOut = (commit, dispatch) => {
   commit('SET_TOKEN', '')
   commit('SET_ROLES', [])
-  removeToken()
+
+  removeToken() // 移除Token
+
+  resetRouter()// 重置路由
+
+  /**
+    * 退出时重置访问的视图和缓存的视图 to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+    * 直接在模块中commit('mutation')/dispatch('action')，默认提交/分发的是模块中的mutation/action
+    * 想要调用全局，需要在之后加上{root:true}
+    */
+  dispatch('tagsView/delAllViews', null, { root: true })
 }
 
+/* 设置用户权限 */
 export const setUserInfo = (res, commit) => {
   // 如果没有任何权限，则赋予一个默认的权限，避免请求死循环
   if (res.roles.length === 0) {
@@ -89,6 +113,9 @@ export const setUserInfo = (res, commit) => {
     commit('SET_ROLES', res.roles)
   }
   commit('SET_USER', res.user)
+
+  // commit('SET_ROLES', res.data.roles) uduhs-admin
+  // commit('SET_USER', res.data)
 }
 
 export default user

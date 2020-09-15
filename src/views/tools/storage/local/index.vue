@@ -6,9 +6,9 @@
         <!-- 搜索 -->
         <el-input v-model="query.blurry" clearable size="small" placeholder="输入内容模糊搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <date-range-picker v-model="query.createTime" class="date-item" />
-        <rrOperation />
+        <rr-operation />
       </div>
-      <crudOperation :permission="permission">
+      <crud-operation :permission="permission">
         <!-- 新增 -->
         <el-button
           slot="left"
@@ -20,7 +20,7 @@
           @click="crud.toAdd"
         >上传
         </el-button>
-      </crudOperation>
+      </crud-operation>
     </div>
     <!--表单组件-->
     <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.add ? '文件上传' : '编辑文件'" width="500px">

@@ -6,9 +6,9 @@
         <!-- 搜索 -->
         <el-input v-model="query.appName" clearable placeholder="输入应用名称查询" style="width: 200px" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <date-range-picker v-model="query.createTime" class="date-item" />
-        <rrOperation />
+        <rr-operation />
       </div>
-      <crudOperation :permission="permission">
+      <crud-operation :permission="permission">
         <template slot="right">
           <el-button
             v-permission="['admin','deploy:add']"
@@ -61,7 +61,7 @@
           >一键部署
           </el-button>
         </template>
-      </crudOperation>
+      </crud-operation>
     </div>
     <!--表单组件-->
     <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
@@ -83,8 +83,8 @@
       </div>
     </el-dialog>
     <!--统还原组件-->
-    <fForm ref="sysRestore" :key="times" :app-name="appName" />
-    <dForm ref="deploy" />
+    <f-form ref="sysRestore" :key="times" :app-name="appName" />
+    <d-form ref="deploy" />
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" highlight-current-row stripe style="width: 100%" @selection-change="handleCurrentChange">
       <el-table-column type="selection" width="55" />
@@ -97,7 +97,7 @@
       </el-table-column>
       <el-table-column v-permission="['admin','deploy:edit','deploy:del']" label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <udOperation
+          <ud-operation
             :data="scope.row"
             :permission="permission"
           />

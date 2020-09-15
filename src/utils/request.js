@@ -9,20 +9,25 @@ import Cookies from 'js-cookie'
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_API : '/', // api 的 base_url
-  timeout: Config.timeout // 请求超时时间
+  timeout: Config.timeout // 设置请求超时的时间
 })
 
 // request拦截器
 service.interceptors.request.use(
   config => {
+    // do something 在请求发送前
     if (getToken()) {
-      config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+      /**
+       * 让每个请求携带token
+       * ['Authorization']为自定义key 请根据实际情况自行修改
+       */
+      config.headers['Authorization'] = getToken()
     }
     config.headers['Content-Type'] = 'application/json'
     return config
   },
   error => {
-    // Do something with request error
+    // do something 发送请求失败的话
     console.log(error) // for debug
     Promise.reject(error)
   }
@@ -30,6 +35,16 @@ service.interceptors.request.use(
 
 // response 拦截器
 service.interceptors.response.use(
+  /**
+   * 如果您想获取http信息，如头或状态
+   * 那么设置 return  response => response
+  */
+
+  /**
+   * 通过自定义代码确定请求状态
+   * 下面只是一个例子
+   * 你也可以通过 response.data.code 来判断
+   */
   response => {
     const code = response.status
     if (code < 200 || code > 300) {

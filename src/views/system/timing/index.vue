@@ -6,9 +6,9 @@
         <!-- 搜索 -->
         <el-input v-model="query.jobName" clearable size="small" placeholder="输入任务名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="toQuery" />
         <date-range-picker v-model="query.createTime" class="date-item" />
-        <rrOperation />
+        <rr-operation />
       </div>
-      <crudOperation :permission="permission">
+      <crud-operation :permission="permission">
         <!-- 任务日志 -->
         <el-button
           slot="right"
@@ -18,8 +18,8 @@
           icon="el-icon-tickets"
           @click="doLog"
         >日志</el-button>
-      </crudOperation>
-      <Log ref="log" />
+      </crud-operation>
+      <log ref="log" />
     </div>
     <!--Form表单-->
     <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" append-to-body width="730px">

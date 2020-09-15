@@ -1,10 +1,10 @@
 <template>
   <el-tabs v-model="activeName" style="padding-left: 8px;">
     <el-tab-pane label="邮箱配置" name="first">
-      <Config />
+      <config />
     </el-tab-pane>
     <el-tab-pane label="发送邮件" name="second">
-      <Send />
+      <send />
     </el-tab-pane>
     <el-tab-pane label="使用说明" name="third">
       <div>

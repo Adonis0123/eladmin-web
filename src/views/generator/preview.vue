@@ -1,7 +1,7 @@
 <template>
   <el-tabs v-model="activeName" type="card">
     <el-tab-pane v-for="item in data" :key="item.name" :lazy="true" :label="item.name" :name="item.name">
-      <Java :value="item.content" :height="height" />
+      <java :value="item.content" :height="height" />
     </el-tab-pane>
   </el-tabs>
 </template>

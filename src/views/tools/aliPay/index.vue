@@ -1,10 +1,10 @@
 <template>
   <el-tabs v-model="activeName" style="padding-left: 5px;">
     <el-tab-pane label="参数配置" name="first">
-      <Config />
+      <config />
     </el-tab-pane>
     <el-tab-pane label="支付测试" name="second">
-      <ToPay />
+      <to-pay />
     </el-tab-pane>
     <el-tab-pane label="使用说明" name="third">
       <div>

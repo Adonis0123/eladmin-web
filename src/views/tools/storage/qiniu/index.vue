@@ -1,16 +1,16 @@
 <template>
   <div class="app-container" style="padding: 8px;">
     <!--表单组件-->
-    <eForm ref="form" />
+    <e-form ref="form" />
     <!-- 工具栏 -->
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
         <el-input v-model="query.key" clearable size="small" placeholder="输入文件名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="toQuery" />
         <date-range-picker v-model="query.createTime" class="date-item" />
-        <rrOperation />
+        <rr-operation />
       </div>
-      <crudOperation :permission="permission">
+      <crud-operation :permission="permission">
         <template slot="left">
           <!-- 上传 -->
           <el-button class="filter-item" size="mini" type="primary" icon="el-icon-upload" @click="dialog = true">上传</el-button>
@@ -25,7 +25,7 @@
             @click="doConfig"
           >配置</el-button>
         </template>
-      </crudOperation>
+      </crud-operation>
       <!-- 文件上传 -->
       <el-dialog :visible.sync="dialog" :close-on-click-modal="false" append-to-body width="500px" @close="doSubmit">
         <el-upload

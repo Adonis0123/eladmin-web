@@ -6,9 +6,9 @@
         <!-- 搜索 -->
         <el-input v-model="query.blurry" clearable placeholder="模糊搜索" style="width: 200px" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <date-range-picker v-model="query.createTime" class="date-item" />
-        <rrOperation />
+        <rr-operation />
       </div>
-      <crudOperation :permission="permission">
+      <crud-operation :permission="permission">
         <el-button
           slot="right"
           v-permission="['admin','database:add']"
@@ -20,10 +20,10 @@
           @click="execute"
         >执行脚本
         </el-button>
-      </crudOperation>
+      </crud-operation>
     </div>
     <!--表单组件-->
-    <eForm ref="execute" :database-info="currentRow" />
+    <e-form ref="execute" :database-info="currentRow" />
     <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="530px">
       <el-form ref="form" :model="form" :rules="rules" size="small" label-width="100px">
         <el-form-item label="连接名称" prop="name">
@@ -58,7 +58,7 @@
       </el-table-column>
       <el-table-column v-permission="['admin','database:edit','database:del']" label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <udOperation
+          <ud-operation
             :data="scope.row"
             :permission="permission"
           />

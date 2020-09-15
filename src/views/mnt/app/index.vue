@@ -6,9 +6,9 @@
         <!-- 搜索 -->
         <el-input v-model="query.name" clearable placeholder="输入名称搜索" style="width: 200px" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <date-range-picker v-model="query.createTime" class="date-item" />
-        <rrOperation />
+        <rr-operation />
       </div>
-      <crudOperation :permission="permission">
+      <crud-operation :permission="permission">
         <el-button
           slot="left"
           v-permission="['admin','app:add']"
@@ -19,7 +19,7 @@
           icon="el-icon-plus"
           @click="copy"
         >复制</el-button>
-      </crudOperation>
+      </crud-operation>
     </div>
     <!--表单组件-->
     <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="800px">
@@ -66,7 +66,7 @@
       </el-table-column>
       <el-table-column v-permission="['admin','app:edit','app:del']" label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <udOperation
+          <ud-operation
             :data="scope.row"
             :permission="permission"
           />

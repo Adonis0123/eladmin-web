@@ -2,8 +2,8 @@
   <div class="app-container">
     <!--工具栏-->
     <div class="head-container">
-      <eHeader :dict="dict" :permission="permission" />
-      <crudOperation :permission="permission" />
+      <e-header :dict="dict" :permission="permission" />
+      <crud-operation :permission="permission" />
     </div>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
@@ -38,7 +38,7 @@
         fixed="right"
       >
         <template slot-scope="scope">
-          <udOperation
+          <ud-operation
             :data="scope.row"
             :permission="permission"
           />
@@ -48,7 +48,7 @@
     <!--分页组件-->
     <pagination />
     <!--表单渲染-->
-    <eForm :job-status="dict.job_status" />
+    <e-form :job-status="dict.job_status" />
   </div>
 </template>
 

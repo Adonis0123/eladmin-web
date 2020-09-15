@@ -9,7 +9,7 @@
       class="filter-item"
     />
     <date-range-picker v-model="query.createTime" class="date-item" />
-    <rrOperation />
+    <rr-operation />
   </div>
 </template>
 

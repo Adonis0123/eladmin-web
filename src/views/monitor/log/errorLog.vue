@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="head-container">
-      <Search />
-      <crudOperation>
+      <search />
+      <crud-operation>
         <el-button
           slot="left"
           class="filter-item"
@@ -14,7 +14,7 @@
         >
           清空
         </el-button>
-      </crudOperation>
+      </crud-operation>
     </div>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">

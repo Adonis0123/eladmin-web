@@ -1,43 +1,33 @@
+/*
+ * @Author: Hzh
+ * @Date: 2020-09-14 09:38:49
+ * @LastEditTime: 2020-09-14 13:27:31
+ * @LastEditors: Hzh
+ * @Description:注册路由
+ */
 import { constantRouterMap } from '@/router/routers'
-import Layout from '@/layout/index'
 
 const permission = {
   state: {
-    routers: constantRouterMap,
-    addRouters: []
+    routers: constantRouterMap, // 所有路由
+    addRouters: [] // 异步路由
   },
   mutations: {
+    /* 添加异步路由  */
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
       state.routers = constantRouterMap.concat(routers)
     }
   },
   actions: {
+    /**
+     * @description: 添加异步路由
+     * @param {Array} asyncRouter 路由路由
+     */
     GenerateRoutes({ commit }, asyncRouter) {
       commit('SET_ROUTERS', asyncRouter)
     }
   }
-}
-
-export const filterAsyncRouter = (routers) => { // 遍历后台传来的路由字符串，转换为组件对象
-  return routers.filter(router => {
-    if (router.component) {
-      if (router.component === 'Layout') { // Layout组件特殊处理
-        router.component = Layout
-      } else {
-        const component = router.component
-        router.component = loadView(component)
-      }
-    }
-    if (router.children && router.children.length) {
-      router.children = filterAsyncRouter(router.children)
-    }
-    return true
-  })
-}
-
-export const loadView = (view) => {
-  return (resolve) => require([`@/views/${view}`], resolve)
 }
 
 export default permission

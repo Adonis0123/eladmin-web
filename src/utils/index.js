@@ -386,3 +386,15 @@ export function downloadFile(obj, name, suffix) {
   link.click()
   document.body.removeChild(link)
 }
+
+/**
+ * @description: 数组的位置交换
+ * @param {Array} arr 数组
+ * @param {Number} index1 交换的index
+ * @param {Number} index2 交换的index
+ * @returns {Array} 交换后的数组
+ */
+export function swapArray(arr, index1, index2) {
+  arr[index1] = arr.splice(index2, 1, arr[index1])[0]
+  return arr
+}

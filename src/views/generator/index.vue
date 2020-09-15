@@ -4,9 +4,9 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <el-input v-model="query.name" clearable size="small" placeholder="请输入表名" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-        <rrOperation />
+        <rr-operation />
       </div>
-      <crudOperation>
+      <crud-operation>
         <el-tooltip slot="right" class="item" effect="dark" content="数据库中表字段变动时使用该功能" placement="top-start">
           <el-button
             class="filter-item"
@@ -18,7 +18,7 @@
             @click="sync"
           >同步</el-button>
         </el-tooltip>
-      </crudOperation>
+      </crud-operation>
     </div>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">

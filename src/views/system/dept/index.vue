@@ -9,9 +9,9 @@
         <el-select v-model="query.enabled" clearable size="small" placeholder="状态" class="filter-item" style="width: 90px" @change="crud.toQuery">
           <el-option v-for="item in enabledTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
         </el-select>
-        <rrOperation />
+        <rr-operation />
       </div>
-      <crudOperation :permission="permission" />
+      <crud-operation :permission="permission" />
     </div>
     <!--表单组件-->
     <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
@@ -86,7 +86,7 @@
       </el-table-column>
       <el-table-column v-permission="['admin','dept:edit','dept:del']" label="操作" width="130px" align="center" fixed="right">
         <template slot-scope="scope">
-          <udOperation
+          <ud-operation
             :data="scope.row"
             :permission="permission"
             :disabled-dle="scope.row.id === 1"

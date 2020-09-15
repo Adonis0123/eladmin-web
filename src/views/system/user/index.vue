@@ -55,9 +55,9 @@
                 :value="item.key"
               />
             </el-select>
-            <rrOperation />
+            <rr-operation />
           </div>
-          <crudOperation show="" :permission="permission" />
+          <crud-operation show="" :permission="permission" />
         </div>
         <!--表单渲染-->
         <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="570px">
@@ -176,7 +176,7 @@
             fixed="right"
           >
             <template slot-scope="scope">
-              <udOperation
+              <ud-operation
                 :data="scope.row"
                 :permission="permission"
                 :disabled-dle="scope.row.id === user.id"

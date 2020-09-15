@@ -10,7 +10,7 @@
             <div style="text-align: center">
               <div class="el-upload">
                 <img :src="user.avatarName ? baseApi + '/avatar/' + user.avatarName : Avatar" title="点击上传头像" class="avatar" @click="toggleShow">
-                <myUpload
+                <my-upload
                   v-model="show"
                   :headers="headers"
                   :url="updateAvatarApi"
@@ -99,8 +99,8 @@
         </el-card>
       </el-col>
     </el-row>
-    <updateEmail ref="email" :email="user.email" />
-    <updatePass ref="pass" />
+    <update-email ref="email" :email="user.email" />
+    <update-pass ref="pass" />
   </div>
 </template>
 

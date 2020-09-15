@@ -1,5 +1,5 @@
 <template>
-  <elFrame :src="sqlApi" />
+  <el-frame :src="sqlApi" />
 </template>
 <script>
 import { mapGetters } from 'vuex'

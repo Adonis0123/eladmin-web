@@ -1,5 +1,6 @@
 #app {
 
+   //菜单展开右侧主题内容的样式
   .main-container {
     min-height: 100%;
     transition: margin-left .28s;
@@ -7,6 +8,7 @@
     position: relative;
   }
 
+  //左侧菜单栏展开的样式
   .sidebar-container {
     transition: width 0.28s;
     width: $sideBarWidth !important;
@@ -20,7 +22,7 @@
     z-index: 1001;
     overflow: hidden;
 
-    // reset element-ui css
+    // 重置 element-ui css
     .horizontal-collapse-transition {
       transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
     }
@@ -37,12 +39,14 @@
       height: 100%;
     }
 
+    //展示logo下的高度
     &.has-logo {
       .el-scrollbar {
         height: calc(100% - 50px);
       }
     }
 
+    //隐藏横向滚动条样式
     .is-horizontal {
       display: none;
     }
@@ -63,7 +67,7 @@
       width: 100% !important;
     }
 
-    // menu hover
+    // 菜单 hover
     .submenu-title-noDropdown,
     .el-submenu__title {
       &:hover {
@@ -86,13 +90,14 @@
     }
   }
 
+  //侧边栏收起时的样式
   .hideSidebar {
     .sidebar-container {
-      width: 54px !important;
+      width: 54px !important; //收起菜单时的宽度
     }
 
     .main-container {
-      margin-left: 54px;
+      margin-left: 54px; //右侧主体的margin-left
     }
 
     .submenu-title-noDropdown {
@@ -143,22 +148,23 @@
     min-width: $sideBarWidth !important;
   }
 
-  // mobile responsive
+  // 在移动端下的菜单样式
   .mobile {
     .main-container {
-      margin-left: 0;
+      margin-left: 0; //占据整个屏幕
     }
 
     .sidebar-container {
       transition: transform .28s;
-      width: $sideBarWidth !important;
+      width: $sideBarWidth !important; //展开下的宽度
     }
 
+    //隐藏侧边栏下的样式
     &.hideSidebar {
       .sidebar-container {
         pointer-events: none;
         transition-duration: 0.3s;
-        transform: translate3d(-$sideBarWidth, 0, 0);
+        transform: translate3d(-$sideBarWidth, 0, 0); //使用transform隐藏左侧菜单
       }
     }
   }
