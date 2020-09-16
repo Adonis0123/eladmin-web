@@ -1,4 +1,11 @@
-<!-- @author zhengjie -->
+<!--
+ * @Author: Hzh
+ * @Date: 2020-09-14 09:38:49
+ * @LastEditTime: 2020-09-16 11:07:32
+ * @LastEditors: Hzh
+ * @Description:系统管理-菜单管理-选择图标
+-->
+
 <template>
   <div class="icon-body">
     <el-input v-model="name" style="position: relative;" clearable placeholder="请输入图标名称" @clear="filterIcons" @input.native="filterIcons">

@@ -155,8 +155,8 @@ export default {
     /**
      * @description: 登录
      */
-    handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
+    async handleLogin() {
+      this.$refs.loginForm.validate(async(valid) => {
         const user = {
           username: this.loginForm.username,
           password: this.loginForm.password,
@@ -184,16 +184,15 @@ export default {
             Cookies.remove('password')
             Cookies.remove('rememberMe')
           }
-          this.$store
-            .dispatch('Login', user)
-            .then(() => {
-              this.loading = false
-              this.$router.push({ path: this.redirect || '/' })
-            })
-            .catch(() => {
-              this.loading = false
-              this.getCode()
-            })
+          try {
+            await this.$store.dispatch('Login', user)
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          } catch (error) {
+            this.loading = false
+            this.getCode()
+            console.error(error)
+          }
         } else {
           console.log('error submit!!')
           return false

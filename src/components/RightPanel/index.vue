@@ -1,3 +1,11 @@
+
+<!--
+ * @Author: Hzh
+ * @Date: 2020-07-22 18:16:18
+ * @LastEditTime: 2020-09-16 11:15:05
+ * @LastEditors: Hzh
+ * @Description:右侧弹出的系统设置
+-->
 <template>
   <div ref="rightPanel" :class="{show:show}" class="rightPanel-container">
     <div class="rightPanel-background" />

@@ -1,7 +1,7 @@
 /*
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-14 17:49:40
+ * @LastEditTime: 2020-09-16 13:45:55
  * @LastEditors: Hzh
  * @Description:全局函数入口
  */
@@ -13,19 +13,19 @@ import 'normalize.css/normalize.css' // 重置css样式
 
 import Element from 'element-ui'
 //
-import mavonEditor from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+// import mavonEditor from 'mavon-editor'
+// import 'mavon-editor/dist/css/index.css'
 
-// 数据字典
-import dict from './components/Dict'
+// // 数据字典
+// import dict from './components/Dict'
 
 import permission from './directive/permission' // 权限指令
 
-import './assets/styles/element-variables.scss'
+import './assets/styles/element-variables.scss' // element-ui scss
 
 import './assets/styles/index.scss' // 全局scss
 
-import VueHighlightJS from 'vue-highlightjs' // 代码高亮
+// import VueHighlightJS from 'vue-highlightjs' // 代码高亮
 import 'highlight.js/styles/atom-one-dark.css'
 
 import { localData, sessionData } from '@/utils/storage.js' // 浏览器存储工具函数
@@ -41,10 +41,10 @@ import './assets/icons' // icon
 import './router/index' // 权限控制
 import 'echarts-gl'
 
-Vue.use(VueHighlightJS)
-Vue.use(mavonEditor)
+// Vue.use(VueHighlightJS)
+// Vue.use(mavonEditor)
 Vue.use(permission)
-Vue.use(dict)
+// Vue.use(dict)
 Vue.use(Element, {
   size: Cookies.get('size') || 'small' // set element-ui default size
 })

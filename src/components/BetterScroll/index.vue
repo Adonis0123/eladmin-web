@@ -9,7 +9,7 @@
       </div>
     </scroll>
 
-    要想betterScroll产生滚动效果(纵向或者横向)，你需要设置'.wrapper'的高度（宽度）,
+    要想betterScroll产生滚动效果(纵向或者横向)，你需要设置'xx-xx-wrapper'的高度（宽度）,
     content的内容高度（宽度）必须要高于warpper的高度（宽度）
     如果content里面内容的高度是不固定的，那么需要给scroll传值data
 -->

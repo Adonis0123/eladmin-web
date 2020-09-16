@@ -1,3 +1,11 @@
+<!--
+ * @Author: Hzh
+ * @Date: 2020-09-14 09:38:49
+ * @LastEditTime: 2020-09-16 09:46:31
+ * @LastEditors: Hzh
+ * @Description:ele时间选择组件
+-->
+
 <script>
 import { DatePicker, DatePickerOptions } from 'element-ui'
 import { calendarShortcuts } from '@/utils/shortcuts'

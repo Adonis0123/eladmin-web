@@ -1,3 +1,10 @@
+<!--
+ * @Author: Hzh
+ * @Date: 2020-07-22 18:16:18
+ * @LastEditTime: 2020-09-16 11:15:33
+ * @LastEditors: Hzh
+ * @Description:布局设置，选择尺寸大小
+-->
 <template>
   <el-dropdown trigger="click" @command="handleSetSize">
     <div>

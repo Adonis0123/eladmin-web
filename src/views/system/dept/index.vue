@@ -14,7 +14,7 @@
       <crud-operation :permission="permission" />
     </div>
     <!--表单组件-->
-    <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
+    <el-dialog append-to-body :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crudStatusCu" :title="crud.status.title" width="500px">
       <el-form ref="form" inline :model="form" :rules="rules" size="small" label-width="80px">
         <el-form-item label="部门名称" prop="name">
           <el-input v-model="form.name" style="width: 370px;" />
@@ -139,6 +139,11 @@ export default {
         { key: 'true', display_name: '正常' },
         { key: 'false', display_name: '禁用' }
       ]
+    }
+  },
+  computed: {
+    crudStatusCu() {
+      return this.crud.status.cu > 0
     }
   },
   methods: {

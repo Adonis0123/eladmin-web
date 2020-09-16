@@ -1,9 +1,9 @@
 <!--
  * @Author: Hzh
- * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-15 20:02:38
+ * @Date: 2020-07-22 18:16:18
+ * @LastEditTime: 2020-09-16 11:15:22
  * @LastEditors: Hzh
- * @Description:全屏缩放
+ * @Description:全屏功能
 -->
 
 <template>

@@ -1,3 +1,10 @@
+<!--
+ * @Author: Hzh
+ * @Date: 2020-07-22 18:16:18
+ * @LastEditTime: 2020-09-16 11:16:27
+ * @LastEditors: Hzh
+ * @Description:主题颜色选择
+-->
 <template>
   <el-color-picker
     v-model="theme"

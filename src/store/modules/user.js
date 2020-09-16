@@ -12,15 +12,19 @@ const user = {
   },
 
   mutations: {
+    /* 设置TOKEN */
     SET_TOKEN: (state, token) => {
       state.token = token
     },
+    /* 设置用户信息 */
     SET_USER: (state, user) => {
       state.user = user
     },
+    /* 设置权限 */
     SET_ROLES: (state, roles) => {
       state.roles = roles
     },
+    /* 设置是否加载菜单 */
     SET_LOAD_MENUS: (state, loadMenus) => {
       state.loadMenus = loadMenus
     }
@@ -37,9 +41,8 @@ const user = {
         login(userInfo.username, userInfo.password, userInfo.code, userInfo.uuid).then(res => {
           setToken(res.token, rememberMe)
           commit('SET_TOKEN', res.token)
-          setUserInfo(res.user, commit)
-          // 第一次加载菜单时用到， 具体见 router 目录下的 routers.js
-          commit('SET_LOAD_MENUS', true)
+          setUserInfo(res.user, commit) // 获取用户信息与权限
+          commit('SET_LOAD_MENUS', true) // 第一次加载菜单时用到， 具体见 router 目录下的 index.js
           resolve()
         }).catch(error => {
           reject(error)
@@ -104,7 +107,7 @@ export const logOut = (commit, dispatch) => {
   dispatch('tagsView/delAllViews', null, { root: true })
 }
 
-/* 设置用户权限 */
+/* 获取用户权限 */
 export const setUserInfo = (res, commit) => {
   // 如果没有任何权限，则赋予一个默认的权限，避免请求死循环
   if (res.roles.length === 0) {

@@ -1,5 +1,9 @@
-/**
- * Created by PanJiaChen on 16/11/18.
+/*
+ * @Author: Hzh
+ * @Date: 2020-09-14 09:38:49
+ * @LastEditTime: 2020-09-16 13:35:03
+ * @LastEditors: Hzh
+ * @Description:校验函数
  */
 
 /**

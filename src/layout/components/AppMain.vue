@@ -1,7 +1,7 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-15 09:19:26
+ * @LastEditTime: 2020-09-16 11:11:11
  * @LastEditors: Hzh
  * @Description:
 -->
@@ -55,13 +55,13 @@ export default {
 //如果有标签页的话
 .hasTagsView {
   .app-main {
-    /* 84 = navbar + tags-view = 50 + 34 */
-    min-height: calc(100vh - 84px);
+    /* 84 = navbar + tags-view = 50 + 39 */
+    min-height: calc(100vh - 89px);
   }
 
   //固定头部下 .app-main的padding-top
   .fixed-header + .app-main {
-    padding-top: 84px;
+    padding-top: 89px;
   }
 }
 </style>

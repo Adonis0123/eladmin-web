@@ -1,7 +1,7 @@
 /*
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-15 19:58:08
+ * @LastEditTime: 2020-09-16 09:19:07
  * @LastEditors: Hzh
  * @Description: 判断用户权限生成异步路由
  */
@@ -315,36 +315,6 @@ const asyncRouterTable = [{
     'meta': {
       'title': '图标库',
       'icon': 'icon',
-      'noCache': true
-    }
-  }, {
-    'name': 'Editor',
-    'path': 'tinymce',
-    'hidden': false,
-    'component': 'components/Editor',
-    'meta': {
-      'title': '富文本',
-      'icon': 'fwb',
-      'noCache': true
-    }
-  }, {
-    'name': 'Markdown',
-    'path': 'markdown',
-    'hidden': false,
-    'component': 'components/MarkDown',
-    'meta': {
-      'title': 'Markdown',
-      'icon': 'markdown',
-      'noCache': true
-    }
-  }, {
-    'name': 'YamlEdit',
-    'path': 'yaml',
-    'hidden': false,
-    'component': 'components/YamlEdit',
-    'meta': {
-      'title': 'Yaml编辑器',
-      'icon': 'dev',
       'noCache': true
     }
   }]
