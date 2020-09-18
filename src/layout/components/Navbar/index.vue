@@ -8,7 +8,7 @@
 
     <div class="title" :style="{color:theme}">
       <el-image class="title-item logo" :src="logo" fit="contain" />
-      <div class="title-item">Vue Element Admin</div>
+      <div class="title-item">Vue El Admin</div>
     </div>
 
     <div class="left-menu">
