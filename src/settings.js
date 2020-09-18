@@ -1,7 +1,7 @@
 /*
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-14 10:09:36
+ * @LastEditTime: 2020-09-18 18:10:07
  * @LastEditors: Hzh
  * @Description:全局设置文件
  */
@@ -63,5 +63,11 @@ module.exports = {
   /**
    * 备案号
    */
-  caseNumber: '浙ICP备18005431号'
+  caseNumber: '浙ICP备18005431号',
+
+  /**
+   * @description 是否在侧边栏显示菜单搜索
+   * @type {boolean} true | false
+   */
+  menuSearch: true
 }

@@ -1,15 +1,16 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-07-22 18:16:18
- * @LastEditTime: 2020-09-15 09:38:52
+ * @LastEditTime: 2020-09-18 18:09:11
  * @LastEditors: Hzh
  * @Description:侧边栏
 -->
 <template>
-  <div :class="{'has-logo':showLogo}">
-    <logo v-if="showLogo" :collapse="isCollapse" />
+  <div :class="{'has-logo':menuSearch}">
+    <sidebar-header v-if="menuSearch" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
+        ref="elMenu"
         :default-active="activeMenu"
         :collapse="isCollapse"
         :background-color="variables.menuBg"
@@ -20,7 +21,7 @@
         mode="vertical"
       >
         <sidebar-item
-          v-for="route in permission_routers"
+          v-for="route in menuList"
           :key="route.path"
           :item="route"
           :base-path="route.path"
@@ -32,33 +33,25 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Logo from './Logo'
+import SidebarHeader from './SidebarHeader'
 import SidebarItem from './SidebarItem'
 import variables from '@/assets/styles/variables.scss'
 
 export default {
-  components: { SidebarItem, Logo },
+  components: { SidebarItem, SidebarHeader },
+  data() {
+    return {
+      activeMenu: ''
+    }
+  },
   computed: {
-    ...mapGetters(['permission_routers', 'sidebar']),
+    ...mapGetters(['sidebar', 'menuList']),
 
     /**
-     * @description: 侧边栏高亮
+     * @description: 展示侧边栏的菜单搜索
      */
-    activeMenu() {
-      const route = this.$route
-      const { meta, path } = route
-      // 如果设置了这一属性，那么侧边栏高亮的地方将指向你设置的地址
-      if (meta.activeMenu) {
-        return meta.activeMenu
-      }
-      return path
-    },
-
-    /**
-     * @description: 展示侧边栏的logo
-     */
-    showLogo() {
-      return this.$store.state.settings.sidebarLogo
+    menuSearch() {
+      return this.$store.state.settings.menuSearch
     },
 
     /**
@@ -89,6 +82,23 @@ export default {
     themeColor() {
       return this.$store.state.settings.theme
     }
+  },
+
+  watch: {
+    /**
+     * @description: 侧边栏高亮
+     */
+    $route: {
+      handler: function(newVal, oldVal) {
+        const { meta, path } = newVal
+        this.activeMenu = meta.activeMenu ? meta.activeMenu : path
+        this.$nextTick(() => {
+          this.$refs.elMenu.activeIndex = this.activeMenu // 修改左侧菜单不高亮的bug
+        })
+      },
+      immediate: true
+    }
   }
+
 }
 </script>

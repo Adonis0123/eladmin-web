@@ -1,26 +1,13 @@
 #app {
 
-   //菜单展开右侧主题内容的样式
-  .main-container {
-    min-height: 100%;
-    transition: margin-left .28s;
-    margin-left: $sideBarWidth;
-    position: relative;
-  }
-
   //左侧菜单栏展开的样式
   .sidebar-container {
-    transition: width 0.28s;
-    width: $sideBarWidth !important;
+    transition      : width 0.3s;
+    width           : $sideBarWidth;
     background-color: $menuBg;
-    height: 100%;
-    position: fixed;
-    font-size: 0;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1001;
-    overflow: hidden;
+    height          : 100%;
+    font-size       : 0px;
+    overflow        : hidden;
 
     // 重置 element-ui css
     .horizontal-collapse-transition {
@@ -28,11 +15,12 @@
     }
 
     .scrollbar-wrapper {
+      margin-right: -19px!important;
       overflow-x: hidden !important;
     }
 
     .el-scrollbar__bar.is-vertical {
-      right: 0;
+      right: 0px;
     }
 
     .el-scrollbar {
@@ -59,6 +47,11 @@
 
     .svg-icon {
       margin-right: 16px;
+    }
+
+    .sub-el-icon {
+      margin-right: 12px;
+      margin-left: -2px;
     }
 
     .el-menu {
@@ -93,11 +86,7 @@
   //侧边栏收起时的样式
   .hideSidebar {
     .sidebar-container {
-      width: 54px !important; //收起菜单时的宽度
-    }
-
-    .main-container {
-      margin-left: 54px; //右侧主体的margin-left
+      width: 54px;
     }
 
     .submenu-title-noDropdown {
@@ -110,6 +99,10 @@
         .svg-icon {
           margin-left: 20px;
         }
+
+        .sub-el-icon {
+          margin-left: 19px;
+        }
       }
     }
 
@@ -121,6 +114,10 @@
 
         .svg-icon {
           margin-left: 20px;
+        }
+
+        .sub-el-icon {
+          margin-left: 19px;
         }
 
         .el-submenu__icon-arrow {
@@ -148,30 +145,35 @@
     min-width: $sideBarWidth !important;
   }
 
-  // 在移动端下的菜单样式
+   // 在移动端下的菜单样式
   .mobile {
-    .main-container {
-      margin-left: 0; //占据整个屏幕
+
+    .el-aside{
+      position: fixed;
+      transition: transform .28s;
+      // height: 100vh; //可根据效果自行调整
+      // top: 0;
+      z-index: 100;
     }
 
     .sidebar-container {
-      transition: transform .28s;
-      width: $sideBarWidth !important; //展开下的宽度
+      width: $sideBarWidth !important;
     }
 
-    //隐藏侧边栏下的样式
     &.hideSidebar {
+      .el-aside{
+        transition: transform .28s;
+        //-211px: $sideBarWidth + 1
+        transform: translate3d(-211px, 0, 0);
+      }
       .sidebar-container {
         pointer-events: none;
         transition-duration: 0.3s;
-        transform: translate3d(-$sideBarWidth, 0, 0); //使用transform隐藏左侧菜单
       }
     }
   }
 
   .withoutAnimation {
-
-    .main-container,
     .sidebar-container {
       transition: none;
     }
@@ -183,6 +185,10 @@
   &>.el-menu {
     .svg-icon {
       margin-right: 16px;
+    }
+    .sub-el-icon {
+      margin-right: 12px;
+      margin-left: -2px;
     }
   }
 

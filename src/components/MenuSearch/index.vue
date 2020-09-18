@@ -1,27 +1,28 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-07-22 18:16:18
- * @LastEditTime: 2020-09-16 10:58:59
+ * @LastEditTime: 2020-09-18 18:11:55
  * @LastEditors: Hzh
  * @Description:搜索菜单
 -->
 
 <template>
-  <div :class="{'show':show}" class="header-search">
-    <svg-icon class-name="search-icon" icon-class="search" @click.stop="click" />
+  <div class="menu-search">
     <el-select
       ref="headerSearchSelect"
       v-model="search"
+      class="menu-search-select"
       :remote-method="querySearch"
       filterable
       default-first-option
       remote
       placeholder="搜索菜单"
-      class="header-search-select"
+      no-data-text="无此菜单"
       @change="change"
     >
       <el-option v-for="item in options" :key="item.path" :value="item" v-html="item.title" />
     </el-select>
+    <i class="el-icon-search" />
   </div>
 </template>
 
@@ -30,6 +31,7 @@
 // 使搜索结果更符合预期
 import Fuse from 'fuse.js'
 import path from 'path'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'HeaderSearch',
@@ -38,14 +40,17 @@ export default {
       search: '', // 搜索的值
       options: [], // 展示出的搜索结果
       searchPool: [], // 搜索池
-      show: false, // 是否展示搜索栏
       fuse: undefined
     }
   },
   computed: {
+    ...mapGetters(['menuList']),
+    rootPath() {
+      return this.$store.state.menu.rootPath
+    },
     // 所有的路由
     routes() {
-      return this.$store.getters.permission_routers
+      return this.$store.getters.permission_routes
     },
     themeColor() {
       return this.$store.getters.theme
@@ -53,10 +58,10 @@ export default {
   },
   watch: {
     /**
-     * @description: 监听routes,当permission_routers有变化时重置searchPool
+     * @description: 监听routes,当permission_routes有变化时重置searchPool
      */
-    routes() {
-      this.searchPool = this.generateRoutes(this.routes)
+    menuList() {
+      this.searchPool = this.generateRoutes(this.menuList)
     },
 
     /**
@@ -64,36 +69,13 @@ export default {
      */
     searchPool(list) {
       this.initFuse(list)
-    },
-
-    /**
-     * @description: 关闭搜索栏
-     * 全局监听click事件，只有show为true时才开启监听然后关闭搜索栏，否则移除监听事件
-     * @param {Boolean} value
-     */
-    show(value) {
-      if (value) {
-        document.body.addEventListener('click', this.close)
-      } else {
-        document.body.removeEventListener('click', this.close)
-      }
     }
   },
   mounted() {
     // 初始化搜索池
-    this.searchPool = this.generateRoutes(this.routes)
+    this.searchPool = this.generateRoutes(this.menuList)
   },
   methods: {
-    /**
-     * @description: 开启或者关闭搜索栏
-     */
-    click() {
-      this.show = !this.show
-      if (this.show) {
-        this.$refs.headerSearchSelect && this.$refs.headerSearchSelect.focus()
-      }
-    },
-
     /**
      * @description: 关闭搜索栏
      */
@@ -111,9 +93,6 @@ export default {
       this.$router.push(val.path)
       this.search = ''
       this.options = []
-      this.$nextTick(() => {
-        this.show = false
-      })
     },
 
     /**
@@ -150,7 +129,7 @@ export default {
      * 第二级路由path.resolve('/nested', 'menu1') 则为/nested/menu1
      * @param {Array} prefixTitle 路由的上一级标题
      */
-    generateRoutes(routes, basePath = '/', prefixTitle = []) {
+    generateRoutes(routes, basePath = this.rootPath, prefixTitle = []) {
       let res = []
 
       for (const router of routes) {
@@ -176,15 +155,8 @@ export default {
         }
 
         // 递归子路由
-        if (router.children) {
-          const tempRoutes = this.generateRoutes(
-            router.children,
-            data.path,
-            data.title
-          )
-          if (tempRoutes.length >= 1) {
-            res = [...res, ...tempRoutes]
-          }
+        if (router.children && router.children.length) {
+          res = res.concat(this.generateRoutes(router.children, data.path, data.title))
         }
       }
       return res
@@ -228,41 +200,49 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header-search {
-  font-size: 0 !important;
-
-  .search-icon {
-    cursor: pointer;
-    font-size: 18px;
-    vertical-align: middle;
-  }
-
-  .header-search-select {
-    font-size: 18px;
-    transition: width 0.2s;
-    width: 0;
-    overflow: hidden;
-    background: transparent;
-    border-radius: 0;
-    display: inline-block;
-    vertical-align: middle;
-
+.menu-search {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  transition: width 0.2s;
+  width: 160px;
+  overflow: hidden;
+  .menu-search-select {
     ::v-deep .el-input__inner {
-      border-radius: 0;
-      border: 0;
-      padding-left: 0;
-      padding-right: 0;
+      background: rgba(85, 102, 118, 0.2);
+      border: none;
+      color: #91a4ab;
       box-shadow: none !important;
-      border-bottom: 1px solid #d9d9d9;
-      vertical-align: middle;
+    }
+    ::v-deep .el-input--suffix {
+      position: relative;
+      .el-input__prefix {
+        display: flex;
+        align-items: center;
+      }
+      .el-input__suffix {
+        display: none;
+      }
     }
   }
 
-  &.show {
-    .header-search-select {
-      width: 210px;
-      margin-left: 10px;
-    }
+  .el-icon-search {
+    color: #fff;
+    font-size: 18px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+  }
+
+}
+.mobile{
+  .menu-search{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 185px;
   }
 }
 </style>

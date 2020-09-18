@@ -1,7 +1,7 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-07-22 18:16:18
- * @LastEditTime: 2020-09-15 10:01:30
+ * @LastEditTime: 2020-09-18 18:14:06
  * @LastEditors: Hzh
  * @Description:组件嵌套
 -->
@@ -13,6 +13,7 @@
     <template v-if="theOnlyOneChild&&!item.alwaysShow">
       <app-link v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
         <el-menu-item
+          ref="menuItem"
           :index="resolvePath(theOnlyOneChild.path)"
           :class="{'submenu-title-noDropdown':!isNest}"
         >
@@ -74,6 +75,14 @@ export default {
     return {}
   },
   computed: {
+
+    /**
+     * @description: 当前菜单所属的一级菜单路径
+     */
+    rootPath() {
+      return this.$store.state.menu.rootPath
+    },
+
     /**
      * 获取需要显示的子菜单或菜单目录数组，当数组长度大于0时，说明当前是菜单目录
      */
@@ -104,7 +113,6 @@ export default {
       if (this.showingChildren.length === 1) {
         return this.showingChildren[0]
       }
-
       // 当前的菜单,这里path之所以要清空，是因为不清空的话会造成最后一个拼接的path重复
       return { ...this.item, path: '' }
     }
@@ -122,8 +130,9 @@ export default {
       if (isExternal(this.basePath)) {
         return this.basePath
       }
-      // 合并basePath和routerPath 例如/permission page将会变成/permission/page
-      return path.resolve(this.basePath, routePath)
+
+      // 合并rootPath、basePath和routerPath 例如/permission page将会变成/permission/page
+      return path.resolve(this.rootPath, this.basePath, routePath)
     }
   }
 }

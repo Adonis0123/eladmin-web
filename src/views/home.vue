@@ -1,14 +1,15 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-16 13:43:16
+ * @LastEditTime: 2020-09-18 17:35:13
  * @LastEditors: Hzh
  * @Description:首页
 -->
 
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-editor-container">
+    首页
+    <!-- <div class="dashboard-editor-container">
       <github-corner class="github-corner" />
 
       <panel-group @handleSetLineChartData="handleSetLineChartData" />
@@ -33,17 +34,17 @@
           </div>
         </el-col>
       </el-row>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import GithubCorner from '@/components/GithubCorner'
-import PanelGroup from './dashboard/PanelGroup'
-import LineChart from './dashboard/LineChart'
-import RadarChart from '@/components/Echarts/RadarChart'
-import PieChart from '@/components/Echarts/PieChart'
-import BarChart from '@/components/Echarts/BarChart'
+// import GithubCorner from '@/components/GithubCorner'
+// import PanelGroup from './dashboard/PanelGroup'
+// import LineChart from './dashboard/LineChart'
+// import RadarChart from '@/components/Echarts/RadarChart'
+// import PieChart from '@/components/Echarts/PieChart'
+// import BarChart from '@/components/Echarts/BarChart'
 
 const lineChartData = {
   newVisitis: {
@@ -67,12 +68,12 @@ const lineChartData = {
 export default {
   name: 'Dashboard',
   components: {
-    GithubCorner,
-    PanelGroup,
-    LineChart,
-    RadarChart,
-    PieChart,
-    BarChart
+    // GithubCorner,
+    // PanelGroup,
+    // LineChart,
+    // RadarChart,
+    // PieChart,
+    // BarChart
   },
   data() {
     return {
@@ -88,28 +89,27 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .dashboard-editor-container {
-    padding: 32px;
-    background-color: rgb(240, 242, 245);
-    position: relative;
+  // .dashboard-editor-container {
+  //   background-color: rgb(240, 242, 245);
+  //   position: relative;
 
-    .github-corner {
-      position: absolute;
-      top: 0;
-      border: 0;
-      right: 0;
-    }
+  //   .github-corner {
+  //     position: absolute;
+  //     top: 0;
+  //     border: 0;
+  //     right: 0;
+  //   }
 
-    .chart-wrapper {
-      background: #fff;
-      padding: 16px 16px 0;
-      margin-bottom: 32px;
-    }
-  }
+  //   .chart-wrapper {
+  //     background: #fff;
+  //     padding: 16px 16px 0;
+  //     margin-bottom: 32px;
+  //   }
+  // }
 
-  @media (max-width:1024px) {
-    .chart-wrapper {
-      padding: 8px;
-    }
-  }
+  // @media (max-width:1024px) {
+  //   .chart-wrapper {
+  //     padding: 8px;
+  //   }
+  // }
 </style>

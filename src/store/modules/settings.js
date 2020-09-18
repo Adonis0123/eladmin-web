@@ -7,7 +7,7 @@
  */
 import variables from '@/assets/styles/element-variables.scss'
 import defaultSettings from '@/settings'
-const { tagsView, fixedHeader, sidebarLogo, uniqueOpened, showFooter, footerTxt, caseNumber } = defaultSettings
+const { tagsView, fixedHeader, sidebarLogo, uniqueOpened, showFooter, footerTxt, caseNumber, menuSearch } = defaultSettings
 
 const state = {
   theme: variables.theme, // 主题颜色
@@ -18,7 +18,8 @@ const state = {
   uniqueOpened: uniqueOpened, // 保持一个菜单展开
   showFooter: showFooter, // 显示底部
   footerTxt: footerTxt, // 底部文字
-  caseNumber: caseNumber // 备案号
+  caseNumber: caseNumber, // 备案号
+  menuSearch: menuSearch // 菜单搜索
 }
 
 const mutations = {

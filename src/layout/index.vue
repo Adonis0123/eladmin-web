@@ -1,22 +1,33 @@
 <template>
-  <el-scrollbar class="app-wrapper-scroll">
-    <div :class="classObj" class="app-wrapper">
-      <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-      <sidebar class="sidebar-container" />
-      <div :class="{hasTagsView:needTagsView}" class="main-container">
-        <div :class="{'fixed-header':fixedHeader}">
-          <navbar />
-          <tags-view v-if="needTagsView" />
-        </div>
-        <app-main />
+  <el-container :class="classObj" class="app-wrapper">
+    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <!-- 头部 -->
+    <el-header style="height:50px">
+      <navbar />
+    </el-header>
+
+    <el-container class="app-container">
+      <!-- 侧边栏 -->
+      <el-aside style="width:auto">
+        <sidebar class="sidebar-container" />
+      </el-aside>
+
+      <el-main :class="{hasTagsView:needTagsView}">
+        <!-- 便签页 -->
+        <tags-view v-if="needTagsView" />
+
+        <!-- 主体内容 -->
+        <app-main class="app-main-contaniner" />
+
+        <!-- 右边设置 -->
         <right-panel v-if="showSettings">
           <settings />
         </right-panel>
-      </div>
-      <!--  防止刷新后主题丢失  -->
-      <theme v-show="false" ref="theme" />
-    </div>
-  </el-scrollbar>
+      </el-main>
+    </el-container>
+    <!--  防止刷新后主题丢失  -->
+    <theme v-show="false" ref="theme" />
+  </el-container>
 </template>
 
 <script>
@@ -43,8 +54,8 @@ export default {
       sidebar: (state) => state.app.sidebar,
       device: (state) => state.app.device,
       showSettings: (state) => state.settings.showSettings,
-      needTagsView: (state) => state.settings.tagsView,
-      fixedHeader: (state) => state.settings.fixedHeader
+      needTagsView: (state) => state.settings.tagsView
+      // fixedHeader: (state) => state.settings.fixedHeader
     }),
     classObj() {
       return {
@@ -102,15 +113,6 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/styles/mixin.scss";
 @import "~@/assets/styles/variables.scss";
-//整体滚动条
-.app-wrapper-scroll {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  ::v-deep .el-scrollbar__wrap {
-    overflow-x: hidden;
-  }
-}
 
 //整体布局
 .app-wrapper {
@@ -118,10 +120,47 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
+  overflow: hidden;
   //移动端下打开左侧侧边栏下的样式
   &.mobile.openSidebar {
     position: fixed;
     top: 0;
+  }
+
+  .el-header {
+    padding: 0;
+    box-shadow: 0px 2px 8px 0px rgba(10, 43, 68, 0.12);
+    position: relative; //解决box-shadow不显示的问题
+    z-index: 1;
+  }
+
+  .app-container {
+    overflow: hidden;
+    .el-aside {
+      height: calc(100vh - 50px); //50px el-header height
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+    .el-main {
+      padding: 0;
+      height: calc(100vh - 50px);
+      overflow: hidden;
+      transition: width 0.28s;
+    }
+  }
+}
+
+//没有标签页
+.app-main-contaniner {
+  height: 100%;
+  width: 100%;
+}
+
+// 如果有标签页的话
+.hasTagsView {
+  .app-main-contaniner {
+    height: calc(100% - 40px); //40px tagsView的height
   }
 }
 
@@ -133,27 +172,27 @@ export default {
   top: 0;
   height: 100%;
   position: absolute;
-  z-index: 999;
+  z-index: 99;
 }
 
-//固定头部
-.fixed-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 9;
-  width: calc(100% - #{$sideBarWidth});
-  transition: width 0.28s;
-  padding: 0;
-}
+// //固定头部
+// .fixed-header {
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   z-index: 9;
+//   width: calc(100% - #{$sideBarWidth});
+//   transition: width 0.28s;
+//   padding: 0;
+// }
 
-//隐藏左侧菜单下 固定头部的宽度
-.hideSidebar .fixed-header {
-  width: calc(100% - 54px);
-}
+// //隐藏左侧菜单下 固定头部的宽度
+// .hideSidebar .fixed-header {
+//   width: calc(100% - 54px);
+// }
 
-//移动端下 固定头部的宽度
-.mobile .fixed-header {
-  width: 100%;
-}
+// //移动端下 固定头部的宽度
+// .mobile .fixed-header {
+//   width: 100%;
+// }
 </style>

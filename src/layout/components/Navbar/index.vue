@@ -1,17 +1,23 @@
 <template>
-  <div class="navbar">
-    <hamburger
-      id="hamburger-container"
-      :is-active="sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
+  <el-row class="navbar" :class="{'mobile':device === 'mobile'}">
+    <template v-if="device==='mobile'">
+      <el-col class="hamburger-container" @click.native="toggleSideBar">
+        <hamburger class="hamburger" :is-active="sidebar.opened" />
+      </el-col>
+    </template>
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <div class="title" :style="{color:theme}">
+      <el-image class="title-item logo" :src="logo" fit="contain" />
+      <div class="title-item">Vue Element Admin</div>
+    </div>
+
+    <div class="left-menu">
+      <nav-menu v-show="device!=='mobile'" />
+    </div>
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" />
+        <!-- <search id="header-search" class="right-menu-item" /> -->
 
         <el-tooltip content="项目文档" effect="dark" placement="bottom">
           <doc class="right-menu-item hover-effect" />
@@ -47,34 +53,38 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-  </div>
+  </el-row>
 </template>
 
 <script>
+import NavMenu from './NavMenu'
 import { mapGetters } from 'vuex'
 import {
-  Breadcrumb,
+  // Breadcrumb,
   Hamburger,
   Screenfull,
   SizeSelect,
-  HeaderSearch as Search,
+  // HeaderSearch as Search,
   Doc
 } from 'components'
 import Avatar from '@/assets/images/avatar.png'
+import { logo } from 'images'
 
 export default {
   components: {
-    Breadcrumb,
+    // Breadcrumb,
     Hamburger,
     Screenfull,
     SizeSelect,
-    Search,
-    Doc
+    // Search,
+    Doc,
+    NavMenu
   },
   data() {
     return {
       Avatar: Avatar,
-      dialogVisible: false
+      dialogVisible: false,
+      logo: logo
     }
   },
   computed: {
@@ -90,6 +100,9 @@ export default {
           value: val
         })
       }
+    },
+    theme() {
+      return this.$store.state.settings.theme
     }
   },
   methods: {
@@ -123,36 +136,45 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
-  .hamburger-container {
-    line-height: 46px;
+  .title {
     height: 100%;
+    padding: 0 19px;
     float: left;
-    cursor: pointer;
-    transition: background 0.3s;
-    -webkit-tap-highlight-color: transparent;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.025);
+    // flex: none;
+    font-size: 18px;
+    font-weight: 400;
+    &-item {
+      line-height: 50px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .logo {
+      margin-right: 8px;
+      width: 40px;
+      height: 40px;
     }
   }
 
-  .breadcrumb-container {
+  .left-menu {
+    display: flex;
+    align-items: center;
+    height: 100%;
     float: left;
-  }
-
-  .errLog-container {
-    display: inline-block;
-    vertical-align: top;
+    // width: calc(100% - 244px - 222px); //272px hamburger-container + right-menu
+    // flex: 1;
   }
 
   .right-menu {
     float: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     height: 100%;
     line-height: 50px;
 
@@ -180,9 +202,12 @@ export default {
 
     .avatar-container {
       margin-right: 30px;
-
+      display: flex;
+      align-items: center;
       .avatar-wrapper {
-        margin-top: 5px;
+        // margin-top: 5px;
+        display: flex;
+        align-items: center;
         position: relative;
 
         .user-avatar {
@@ -202,5 +227,33 @@ export default {
       }
     }
   }
+}
+
+.mobile {
+  .hamburger-container {
+    height: 100%;
+    width: 25px;
+    cursor: pointer;
+    transition: width 0.3s;
+    position: relative;
+    .hamburger {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 25px;
+      width: 100%;
+    }
+    &:hover {
+      background: rgba(0, 0, 0, 0.025);
+    }
+  }
+
+  // .left-menu {
+  //   // width: calc(100% - 136px);
+  //   // flex-grow: 1;
+  // }
+  // .right-menu {
+  //   width: 86px;
+  // }
 }
 </style>

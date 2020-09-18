@@ -1,18 +1,20 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-16 11:11:11
+ * @LastEditTime: 2020-09-18 17:33:02
  * @LastEditors: Hzh
  * @Description:
 -->
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <keep-alive :include="cachedViews">
-        <router-view :key="key" />
-      </keep-alive>
-    </transition>
-    <div v-if="$store.state.settings.showFooter" id="el-main-footer">
+    <el-scrollbar class="app-main-scroll">
+      <transition name="fade-transform" mode="out-in">
+        <keep-alive :include="cachedViews">
+          <router-view :key="key" />
+        </keep-alive>
+      </transition>
+    </el-scrollbar>
+    <div v-if="false" id="el-main-footer">
       <span v-html="$store.state.settings.footerTxt" />
       <span>⋅</span>
       <a href="http://www.beian.miit.gov.cn" target="_blank">{{ $store.state.settings.caseNumber }}</a>
@@ -39,9 +41,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-main-scroll {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  ::v-deep .el-scrollbar__wrap {
+   overflow: hidden scroll;
+  }
+  ::v-deep .el-scrollbar__view {
+    padding: 15px;
+    background: #f0f0f0;
+    box-sizing: border-box;
+  }
+  // ::v-deep .el-scrollbar__bar.is-horizontal{
+    // display: none;
+  // }
+}
 .app-main {
   /*头部的高度 没有tags-view  50= navbar  50*/
-  min-height: calc(100vh - 50px);
+  // min-height: calc(100vh - 50px);
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -54,10 +72,10 @@ export default {
 
 //如果有标签页的话
 .hasTagsView {
-  .app-main {
-    /* 84 = navbar + tags-view = 50 + 39 */
-    min-height: calc(100vh - 89px);
-  }
+  // .app-main {
+  //   /* 84 = navbar + tags-view = 50 + 39 */
+  //   // min-height: calc(100vh - 89px);
+  // }
 
   //固定头部下 .app-main的padding-top
   .fixed-header + .app-main {
