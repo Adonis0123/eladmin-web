@@ -1,10 +1,43 @@
 /*
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-16 13:25:39
+ * @LastEditTime: 2021-03-09 09:49:58
  * @LastEditors: Hzh
  * @Description:工具函数
  */
+
+/**
+ * 转换时间格式
+ * @param {string} date 时间
+ * @param {string} fmt 时间格式 如'yyyy/MM/dd HH:mm:ss
+ * @return: string
+ */
+export const formatDate = (date, fmt) => {
+  const o = {
+    'M+': date.getMonth() + 1, // 月份
+    'd+': date.getDate(), // 日
+    'H+': date.getHours(), // 小时
+    'm+': date.getMinutes(), // 分
+    's+': date.getSeconds(), // 秒
+    'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+    S: date.getMilliseconds() // 毫秒
+  }
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(
+      RegExp.$1,
+      (date.getFullYear() + '').substr(4 - RegExp.$1.length)
+    )
+  }
+  for (const k in o) {
+    if (new RegExp('(' + k + ')').test(fmt)) {
+      fmt = fmt.replace(
+        RegExp.$1,
+        RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
+      )
+    }
+  }
+  return fmt
+}
 
 /**
  * Parse the time to string
@@ -23,10 +56,10 @@ export function parseTime(time, cFormat) {
   } else if (typeof time === 'object') {
     date = time
   } else {
-    if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
+    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
       time = parseInt(time)
     }
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
+    if (typeof time === 'number' && time.toString().length === 10) {
       time = time * 1000
     }
     date = new Date(time)
@@ -43,7 +76,9 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -125,7 +160,7 @@ export function byteLength(str) {
     const code = str.charCodeAt(i)
     if (code > 0x7f && code <= 0x7ff) s++
     else if (code > 0x7ff && code <= 0xffff) s += 2
-    if (code >= 0xDC00 && code <= 0xDFFF) i--
+    if (code >= 0xdc00 && code <= 0xdfff) i--
   }
   return s
 }
@@ -401,4 +436,28 @@ export function downloadFile(obj, name, suffix) {
 export function swapArray(arr, index1, index2) {
   arr[index1] = arr.splice(index2, 1, arr[index1])[0]
   return arr
+}
+
+function doHandleMonth(month) {
+  let m = month
+  if (month.toString().length === 1) {
+    m = '0' + month
+  }
+  return m
+}
+
+/**
+ * @description: 获取第几天的时间
+ * @param {Number} day
+ */
+export function getDay(day) {
+  const today = new Date()
+  const targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day
+  today.setTime(targetday_milliseconds) // 注意，这行是关键代码
+  const tYear = today.getFullYear()
+  let tMonth = today.getMonth()
+  let tDate = today.getDate()
+  tMonth = doHandleMonth(tMonth + 1)
+  tDate = doHandleMonth(tDate)
+  return tYear + '-' + tMonth + '-' + tDate
 }

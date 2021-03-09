@@ -1,7 +1,7 @@
 /*
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-16 13:45:55
+ * @LastEditTime: 2021-03-08 18:30:11
  * @LastEditors: Hzh
  * @Description:全局函数入口
  */
@@ -20,6 +20,8 @@ import Element from 'element-ui'
 // import dict from './components/Dict'
 
 import permission from './directive/permission' // 权限指令
+
+import tip from './directive/tip' // tip指令
 
 import './assets/styles/element-variables.scss' // element-ui scss
 
@@ -43,6 +45,9 @@ import 'echarts-gl'
 
 // Vue.use(VueHighlightJS)
 // Vue.use(mavonEditor)
+
+Vue.use(tip)
+
 Vue.use(permission)
 // Vue.use(dict)
 Vue.use(Element, {
