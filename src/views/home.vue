@@ -1,7 +1,7 @@
 <!--
  * @Author: Hzh
  * @Date: 2020-09-14 09:38:49
- * @LastEditTime: 2020-09-18 17:35:13
+ * @LastEditTime: 2021-03-11 17:22:23
  * @LastEditors: Hzh
  * @Description:首页
 -->
@@ -89,27 +89,27 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  // .dashboard-editor-container {
-  //   background-color: rgb(240, 242, 245);
-  //   position: relative;
+// .dashboard-editor-container {
+//   background-color: rgb(240, 242, 245);
+//   position: relative;
 
-  //   .github-corner {
-  //     position: absolute;
-  //     top: 0;
-  //     border: 0;
-  //     right: 0;
-  //   }
+//   .github-corner {
+//     position: absolute;
+//     top: 0;
+//     border: 0;
+//     right: 0;
+//   }
 
-  //   .chart-wrapper {
-  //     background: #fff;
-  //     padding: 16px 16px 0;
-  //     margin-bottom: 32px;
-  //   }
-  // }
+//   .chart-wrapper {
+//     background: #fff;
+//     padding: 16px 16px 0;
+//     margin-bottom: 32px;
+//   }
+// }
 
-  // @media (max-width:1024px) {
-  //   .chart-wrapper {
-  //     padding: 8px;
-  //   }
-  // }
+// @media (max-width:1024px) {
+//   .chart-wrapper {
+//     padding: 8px;
+//   }
+// }
 </style>

@@ -1,14 +1,14 @@
 /*
  * @Author: Hzh
  * @Date: 2020-09-24 16:50:22
- * @LastEditTime: 2021-02-04 14:14:05
+ * @LastEditTime: 2021-03-11 16:06:40
  * @LastEditors: Hzh
  * @Description:tip指令
  */
 import Loading from './components/loading.vue'
 import Error from './components/error.vue'
 import Empty from './components/empty.vue'
-import TableEmpty from './components/tableEmpty.vue'
+// import TableEmpty from './components/tableEmpty.vue'
 import Vue from 'vue'
 import './tip.css'
 
@@ -23,8 +23,8 @@ const createTip = type => {
   const EmptyComponent = Vue.extend(Empty)
   const empty = new EmptyComponent().$mount().$el
 
-  const TableEmptyComponent = Vue.extend(TableEmpty)
-  const tableEmpty = new TableEmptyComponent().$mount().$el
+  // const TableEmptyComponent = Vue.extend(TableEmpty)
+  // const tableEmpty = new TableEmptyComponent().$mount().$el
 
   const tip = document.createElement('div')
   tip.className = 'v-tip'
@@ -38,9 +38,9 @@ const createTip = type => {
     case 'empty':
       tip.appendChild(empty)
       break
-    case 'tableEmpty':
-      tip.appendChild(tableEmpty)
-      break
+    // case 'tableEmpty':
+    //   tip.appendChild(tableEmpty)
+    //   break
     default:
       break
   }
